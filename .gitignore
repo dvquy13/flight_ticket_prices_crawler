@@ -1,0 +1,15 @@
+.ipynb_checkpoints/
+*.pyc
+*.un~
+.gitignore~
+*.swp
+.vscode
+*.ipynb
+*tmp*
+
+loggings/
+creds/
+archive/
+data/
+doc/
+output/
