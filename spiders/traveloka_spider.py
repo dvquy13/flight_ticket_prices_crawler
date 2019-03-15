@@ -86,7 +86,7 @@ class TravelokaSpider(scrapy.Spider):
         res_df = (
             extract_utils.extract_flight_info(response)
             .assign(
-                direction='Hanoi -> Phu Quoc',
+                direction='depart',
                 import_time=pd.Timestamp.now())
         )
 
@@ -96,18 +96,18 @@ class TravelokaSpider(scrapy.Spider):
                     .loc[
                         lambda df:
                             df['price'] == df['price'].min()]
-                    .assign(type='cheapest'),
+                    .assign(crawl_type='cheapest'),
                 res_df
                     .loc[
                         lambda df:
                             (df['airline'] == 'Jetstar')
                             &
                             (df['depart_time'] == '09:45')]
-                    .assign(type='family')
+                    .assign(crawl_type='family')
             ],
             axis=0
         )
-        import pdb; pdb.set_trace()
+
         file_utils.save_or_append(filter_df, path=self.o_path)
         if filter_df.shape[0] > 0:
             self.log(f"Saved depart output!")
@@ -119,7 +119,7 @@ class TravelokaSpider(scrapy.Spider):
         res_df = (
             extract_utils.extract_flight_info(response)
             .assign(
-                direction='Phu Quoc -> Hanoi',
+                direction='return',
                 import_time=pd.Timestamp.now())
         )
 
@@ -129,14 +129,14 @@ class TravelokaSpider(scrapy.Spider):
                     .loc[
                         lambda df:
                             df['price'] == df['price'].min()]
-                    .assign(type='cheapest'),
+                    .assign(crawl_type='cheapest'),
                 res_df
                     .loc[
                         lambda df:
                             (df['airline'] == 'Jetstar')
                             &
                             (df['depart_time'] == '12:30')]
-                    .assign(type='family')
+                    .assign(crawl_type='family')
             ],
             axis=0
         )

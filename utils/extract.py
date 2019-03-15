@@ -75,8 +75,6 @@ def extract_flight_info(response):
     ))
     assert len(price_list) == len(arrive_hours), \
         "len(price_list) != len(arrive_hours)"
-    if '#depart' in str(response):
-        import pdb; pdb.set_trace()
     res_df = (
         pd.DataFrame(
             records,
